@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/sujets")
@@ -62,4 +63,28 @@ public class SujetPfeRestController {
             return new ResponseEntity<>("Sujet non trouvé", HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/search")
+    public List<SujetPfe> searchSujets(
+            @RequestParam(required = false) String technologie,
+            @RequestParam(required = false) DemandeStatus status) {
+        return sujetPfeService.searchSujets(technologie, status);
+    }
+    @PutMapping("/{id}/moderateur/{moderatorId}")
+    public ResponseEntity<SujetPfe> affecterModerateur(@PathVariable Integer id, @PathVariable Integer moderatorId) {
+        SujetPfe sujetModifie = sujetPfeService.affecterModerateur(id, moderatorId);
+        if (sujetModifie != null) {
+            return new ResponseEntity<>(sujetModifie, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
+    @GetMapping("/statistiques")
+    public ResponseEntity<Map<String, Long>> obtenirStatistiques() {
+        Map<String, Long> statistiques = sujetPfeService.obtenirStatistiques();
+        return new ResponseEntity<>(statistiques, HttpStatus.OK);
+    }
+
+
 }

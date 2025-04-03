@@ -8,4 +8,6 @@ public interface ISujetPfe {
     SujetPfe getSujetById(Integer id);
     SujetPfe modifierSujet(Integer id, SujetPfe updatedSujet);
     void supprimerSujet(Integer id);
+    public double calculerPourcentageSujetsAttribues();
+    SujetPfe affecterModerateur(Integer sujetPfeId, Integer moderatorId);
 }
